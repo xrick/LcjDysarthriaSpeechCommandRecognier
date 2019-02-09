@@ -5,8 +5,8 @@ from keras.utils import to_categorical
 import numpy as np
 from tqdm import tqdm
 
-DATA_PATH = "./data/"
-
+DATA_PATH = "./data"
+#DATA_PATH = "../../DeadSimpleSpeechRecognizor_Data/"
 
 # Input: Folder Path
 # Output: Tuple (Label, Indices of the labels, one-hot encoded labels)
@@ -35,8 +35,8 @@ def wav2mfcc(file_path, max_len=11):
 
 
 def save_data_to_array(path=DATA_PATH, max_len=11):
-    labels, _, _ = get_labels(path)
-
+    labels, _, _ = get_labels(path)  # labels = ['cat', 'bed', 'happy']
+    #print("labels are :",labels)
     for label in labels:
         # Init mfcc vectors
         mfcc_vectors = []
@@ -45,6 +45,7 @@ def save_data_to_array(path=DATA_PATH, max_len=11):
         for wavfile in tqdm(wavfiles, "Saving vectors of label - '{}'".format(label)):
             mfcc = wav2mfcc(wavfile, max_len=max_len)
             mfcc_vectors.append(mfcc)
+        print("length of mfcc_vectors is : ",len(mfcc))
         np.save(label + '.npy', mfcc_vectors)
 
 
